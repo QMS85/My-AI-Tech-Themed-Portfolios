@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Jonathan | Front-End & Node.js Developer</title>
+        <style>
+            :root {
+                --bg: #0a0a0f;
+                --accent: #00f0ff;
+                --text: #e0e0e0;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            body {
+                background-color: var(--bg);
+                color: var(--text);
+                line-height: 1.6;
+                overflow-x: hidden;
+            }
+
+            .cyber-grid {
+                background-image: linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+
+                b header {
+                    padding: 4rem 2rem;
+                    text-align: center;
+                    border-bottom: 2px solid var(--accent);
+                    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+                }
+
+                h1 {
+                    font-size: 3rem;
+                    text-transform: uppercase;
+                    letter-spacing: 4px;
+                    text-shadow: 0 0 10px var(--accent);
+                }
+
+                .glitch-text {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                }
+
+                .projects-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin-top: 2rem;
+                }
+
+                .card {
+                    background: rgba(10, 10, 15, 0.8);
+                    border: 1px solid var(--accent);
+                    padding: 1.5rem;
+                    transition: all 0.3s ease;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 0 15px var(--accent);
+                }
+
+                .card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 2px;
+                    background: var(--accent);
+                    transition: left 0.5s ease;
+                }
+
+                .card:hover::before {
+                    left: 100%;
+                }
+
+                .btn {
+                    display: inline-block;
+                    padding: 0.8rem 1.5rem;
+                    background: transparent;
+                    border: 1px solid var(--accent);
+                    color: var(--accent);
+                    text-decoration: none;
+
+                    text-tr .btn:hover {
+                        background: var(--accent);
+                        color: var(--bg);
+                    }
+
+                    @media (max-width: 768px) {
+                        h1 {
+                            font-size: 2rem;
+                        }
+                    }
+        </style>
+    </head>
+
+    <body>
+        <div class="cyber-grid"></div>
+        <header>
+            <h1 class="glitch-text">Jonathan</h1>
+            <p>Front-End Web Developer | UI/UX | Node.js Systems</p>
+        </header>
+        <main class="container">
+            <h2>// System.Execute("View_Projects");</h2>
+            <div class="projects-grid">
+                <div class="card">
+                    <h3>gkroon-cli</h3>
+                    <p>An automated Git workflow and repository scaffolding command-line interface tool built with Node.js.</p>
+                    <a href="#" class="btn">View Source</a>
+                </div>
+                <div class="card">
+                    <h3>Logistics App UI</h3>
+                    <p>A multi-device responsive logistics platform featuring complex dispatch controls and real-time state management.
+                    </p>
+                    <a href="#" class="btn">View Demo</a>
+                </div>
+                </div>
+                </main>
+                <script>
+                    // Interactive glow effect based on mouse movement
+                    document.addEventListener('mousemove', (e) => {
+                        const cards = document.querySelectorAll('.card');
+                        cards.forEach(card => {
+                            const rect = card.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0, 240, 255, 0.15), rgba(10, 10, 15, 0.8) 40%)`;
+                        });
+                    });
+                </script>
+                </body>
+                
+                </html>

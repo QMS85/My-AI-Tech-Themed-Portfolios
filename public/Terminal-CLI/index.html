@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Jonathan | ~/portfolio</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #0c0c0c;
+                color: #00ff00;
+                font-family: 'Courier New', Courier, monospace;
+                padding: 2rem;
+                overflow-x: hidden;
+            }
+
+            #terminal {
+                max-width: 900px;
+                margin: 0 auto;
+                padding-bottom: 2rem;
+            }
+
+            .prompt { color: #55ffff; }
+        .command { color: #ffffff; }
+        .output { margin: 0.5rem 0 1.5rem 1rem; color: #00aa00; line-height: 1.5; }
+        .cursor { display: inline-block; width: 10px; height: 1.2rem; background: #00ff00; animation: blink 1s step-end infinite; vertical-align: bottom; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        a { color: #55ffff; text-decoration: none; border-bottom: 1px dashed #55ffff; }
+        a:hover { background: #55ffff; color: #0c0c0c; }
+    </style>
+    </head>
+    
+    <body>
+        <div id="terminal"></div>
+        <script>
+            const terminalData = [
+                { cmd: "whoami", out: "Jonathan\nFront-End Developer & CLI Enthusiast" },
+                { cmd: "ls ./projects", out: "<a href='#'>gkroon-cli</a>     - Node.js workflow automation tool\n<a href='#'>logistics-ui</a>   - Responsive dispatch state mana
+                { cmd: "cat skills.txt", out: "[ JavaScript, TypeScript, Node.js, HTML5, CSS3, React, Git ]" },
+                { cmd: "echo $STATUS", out: "Ready for new challenges and complex architectural problems." }
+            ];
+            const terminalEl = document.getElementById('terminal');
+            let dataIndex = 0;
+            async function typeText(element, text, speed = 30) {
+                for (let i = 0; i < text.length; i++) {
+                    element.innerHTML += text.charAt(i);
+                    await new Promise(r => setTimeout(r, speed));
+                }
+            }
+            async function runTerminal() {
+                for (let data of terminalData) {
+                    const cmdLine = document.createElement('div');
+                    cmdLine.innerHTML = `<span class="prompt">jonathan@ubuntu:~$</span> <span class="command" id="cmd-${dataIndex}"></span>`;
+                    terminalEl.appendChild(cmdLine);
+                    const cmdSpan = document.getElementById(`cmd-${dataIndex}`);
+                    await typeText(cmdSpan, data.cmd, 50);
+                    await new Promise(r => setTimeout(r, 200)); // Pause before output
+                    const outLine = document.createElement('pre');
+                    outLine.className = 'output';
+                    outLine.innerHTML = data.out;
+                    terminalEl.appendChild(outLine);
+                    dataIndex++;
+                }
+                // Append final blinking cursor
+                const finalLine = document.createElement('div');
+                finalLine.innerHTML = `<span class="prompt">jonathan@ubuntu:~$</span> <span class="cursor"></span>`;
+                terminalEl.appendChild(finalLine);
+            }
+
+            runTerminal();
+            </script>
+    </body>
+    
+    </html>
