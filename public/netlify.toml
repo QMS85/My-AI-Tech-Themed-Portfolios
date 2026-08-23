@@ -1,0 +1,12 @@
+[build]
+  base = "public"
+  command = "echo 'Deploy ready'"
+  publish = "."
+
+[context.production]
+  environment = { NODE_ENV = "production" }
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
