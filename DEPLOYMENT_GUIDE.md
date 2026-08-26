@@ -1,145 +1,344 @@
-# 🚀 Complete Deployment Guide
+# 🚀 Deployment Guide
 
-## Quick Start (Choose One)
+## Overview
 
-### Option 1: GitHub Pages (Fastest & Free)
+This guide covers deploying your AI-Tech Themed Portfolios to various platforms.
+
+## Prerequisites
+
+- Node.js >= 18.0.0
+- npm >= 9.0.0
+- Git
+- Docker (optional, for containerized deployment)
+
+## Local Development
+
 ```bash
-# 1. Go to Settings > Pages
-# 2. Select "Deploy from a branch"
-# 3. Choose: main / /public
-# 4. Save and wait 1-2 minutes
+# Install dependencies for all portfolios
+npm run install:all
 
-# Your site: https://QMS85.github.io/My-AI-Tech-Themed-Portfolios/
+# Run all portfolios in development mode
+npm run dev:all
+
+# Run individual portfolios
+npm run dev:glass    # Port 3001
+npm run dev:neon     # Port 3002
+npm run dev:terminal # Port 3003
 ```
 
-### Option 2: Vercel (Recommended)
-```bash
-npm i -g vercel
-vercel login
-vercel
+## Production Build
 
-# Follow prompts - site goes live instantly!
+```bash
+# Start all portfolios in production mode
+npm run start:all
+
+# Start individual portfolios
+npm run start:glass
+npm run start:neon
+npm run start:terminal
 ```
 
-### Option 3: Netlify
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
 ```bash
-npm i -g netlify-cli
-netlify login
-netlify deploy --prod --dir=public
+# Build and start all containers
+npm run docker:up
+
+# View logs
+npm run docker:logs
+
+# Stop containers
+npm run docker:down
 ```
 
-### Option 4: Docker + Heroku
-```bash
-# Build Docker image
-docker build -t jonathan-portfolio .
+### Using Docker CLI
 
-# Push to Heroku
+```bash
+# Build images
+npm run docker:build
+
+# Run individual containers
+docker run -p 3001:3000 -e NODE_ENV=production ai-portfolio:glassmorphism
+docker run -p 3002:3000 -e NODE_ENV=production ai-portfolio:neon
+docker run -p 3003:3000 -e NODE_ENV=production ai-portfolio:terminal
+```
+
+## PM2 Process Management
+
+### Installation
+
+```bash
+npm install -g pm2
+```
+
+### Start Applications
+
+```bash
+# Start all applications
+npm run pm2:start
+
+# View status
+pm2 status
+
+# View logs
+npm run pm2:logs
+
+# Restart applications
+npm run pm2:restart
+
+# Stop applications
+npm run pm2:stop
+
+# Delete applications
+npm run pm2:delete
+```
+
+## Heroku Deployment
+
+### Prerequisites
+- Heroku CLI installed
+- Heroku account
+
+### Setup
+
+```bash
+# Login to Heroku
 heroku login
-heroku create jonathan-portfolio-app
-heroku container:push web
-heroku container:release web
 
-# Live at: https://jonathan-portfolio-app.herokuapp.com
+# Create app
+heroku create your-app-name
+
+# Set environment variables
+heroku config:set NODE_ENV=production
+
+# Deploy
+git push heroku main
+
+# View logs
+heroku logs --tail
 ```
 
-### Option 5: Docker Compose
+## Railway Deployment
+
+### Setup
+
 ```bash
-# Start all services
-docker-compose up -d
+# Login to Railway
+railway login
 
-# Access at: http://localhost
-# Stop: docker-compose down
+# Link project
+railway link
+
+# Deploy
+railway up
 ```
 
-## Environment Setup
+## Render Deployment
+
+1. Connect GitHub repository
+2. Create new Web Service
+3. Set build command: `npm install:all`
+4. Set start command: `npm run start:all`
+5. Add environment variables
+6. Deploy
+
+## AWS EC2 Deployment
+
+### Setup
 
 ```bash
-# 1. Copy .env.example to .env
-cp .env.example .env
+# SSH into instance
+ssh -i your-key.pem ec2-user@your-instance-ip
 
-# 2. Fill in your secrets
-nano .env
+# Install Node.js
+curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs
 
-# 3. Install dependencies
-npm install
+# Clone repository
+git clone https://github.com/QMS85/My-AI-Tech-Themed-Portfolios.git
+cd My-AI-Tech-Themed-Portfolios
 
-# 4. Test locally
-npm run dev
+# Install dependencies
+npm run install:all
 
-# 5. Build for production
-npm run build
+# Start with PM2
+sudo npm install -g pm2
+npm run pm2:start
+
+# Setup PM2 to start on boot
+pm2 startup
+pm2 save
 ```
 
-## Deployment Checklist
+## Google Cloud Platform
 
-- [ ] All files pushed to GitHub
-- [ ] Environment variables configured (.env file)
-- [ ] Package.json updated with latest deps
-- [ ] Tests passing (npm test)
-- [ ] Security checks passed (npm run security)
-- [ ] Linting passed (npm run lint)
-- [ ] Build successful (npm run build)
-- [ ] Docker image built (docker build -t app .)
-- [ ] Deployment service connected
-- [ ] Custom domain configured (optional)
-- [ ] SSL certificate enabled
-- [ ] Monitoring set up (Sentry, New Relic)
+### Using App Engine
 
-## Post-Deployment
+```bash
+# Initialize App Engine
+gcloud app create
 
-1. **Monitor Performance**
-   - Set up Sentry for error tracking
-   - Use Google Analytics for traffic
-   - Monitor uptime with Pingdom
+# Deploy
+gcloud app deploy
+```
 
-2. **Security**
-   - Run Snyk security scan
-   - Enable branch protection
-   - Set up secret management
+## Microsoft Azure
 
-3. **Maintenance**
-   - Keep dependencies updated (Dependabot)
-   - Regular backups
-   - Monitor logs and alerts
+### Using App Service
 
-## URLs
+```bash
+# Create resource group
+az group create --name myResourceGroup --location eastus
+
+# Create App Service plan
+az appservice plan create --name myAppServicePlan --resource-group myResourceGroup
+
+# Create web app
+az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myapp
+
+# Deploy from GitHub
+az webapp deployment source config-zip --resource-group myResourceGroup --name myapp --src deploy.zip
+```
+
+## Nginx Reverse Proxy
+
+### Configuration
+
+See `nginx.conf` for complete configuration.
+
+```bash
+# Install Nginx
+sudo apt-get install nginx
+
+# Copy configuration
+sudo cp nginx.conf /etc/nginx/sites-available/default
+
+# Test configuration
+sudo nginx -t
+
+# Start Nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
+```
+
+## SSL/TLS Certificate (Let's Encrypt)
+
+```bash
+# Install Certbot
+sudo apt-get install certbot python3-certbot-nginx
+
+# Generate certificate
+sudo certbot certonly --nginx -d yourdomain.com
+
+# Auto-renew
+sudo systemctl enable certbot.timer
+```
+
+## Health Checks
+
+### Endpoint
 
 ```
-GitHub Pages:  https://QMS85.github.io/My-AI-Tech-Themed-Portfolios/
-Vercel:        https://jonathan-portfolio.vercel.app/
-Netlify:       https://jonathan-portfolio.netlify.app/
-Heroku:        https://jonathan-portfolio-app.herokuapp.com/
-Custom:        https://jonathan-portfolio.dev/
+GET /health
+```
+
+### Response
+
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-08-26T12:00:00.000Z",
+  "uptime": 3600,
+  "environment": "production",
+  "memory": {
+    "rss": "150 MB",
+    "heapUsed": "75 MB",
+    "heapTotal": "200 MB"
+  }
+}
+```
+
+## Monitoring
+
+### PM2 Plus
+
+```bash
+# Install PM2 Plus
+pm2 install pm2-auto-pull
+pm2 link your-secret-key your-public-key
+```
+
+### New Relic
+
+```bash
+# Install agent
+npm install newrelic
+
+# Add to server.js (first line)
+require('newrelic');
+```
+
+## Scaling
+
+### Horizontal Scaling
+
+```bash
+# Scale with PM2 cluster mode
+pm2 start ecosystem.config.js -i max
+
+# Scale with Docker
+docker-compose up --scale service=3
+```
+
+### Load Balancing
+
+Use Nginx or cloud provider's load balancer.
+
+## Backup Strategy
+
+```bash
+# Create backup
+npm run backup
+
+# Automated backups (cron)
+0 2 * * * cd /path/to/project && npm run backup
 ```
 
 ## Troubleshooting
 
 ### Port Already in Use
+
 ```bash
-lsof -ti:3000 | xargs kill -9
-npm start
+lsof -i :3001
+kill -9 <PID>
 ```
 
-### Permission Denied (Docker)
+### Memory Issues
+
 ```bash
-sudo usermod -aG docker $USER
-newgrp docker
+# Increase Node memory
+NODE_OPTIONS=--max-old-space-size=4096 npm start
 ```
 
-### CORS Issues
-- Check server.js middleware
-- Ensure origin is allowed in CORS config
+### Permission Errors
 
-### Build Fails
 ```bash
-rm -rf node_modules package-lock.json
-npm install
-npm run build
+# Fix permissions
+chmod -R 755 ./
+chown -R nodejs:nodejs ./
 ```
 
-## Support
+## Performance Optimization
 
-- **GitHub Issues**: Report bugs
-- **Discussions**: Ask questions
-- **Documentation**: Check README.md
-- **Community**: Stack Overflow with tags
+1. Enable Gzip compression
+2. Use CDN for static assets
+3. Enable caching headers
+4. Minify CSS/JS
+5. Optimize images
+6. Use HTTP/2
+
+---
+
+For more information, see [SECURITY_GUIDE.md](./SECURITY_GUIDE.md)
