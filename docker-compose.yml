@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  glassmorphism:
+    build:
+      context: .
+      dockerfile: GLASSMORPHISM-NEURAL-NETWORKS/Dockerfile
+    container_name: ai-portfolio-glass
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_NAME: Glassmorphism Neural Networks
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)}))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - portfolio-network
+    volumes:
+      - ./logs:/app/logs
+
+  neon:
+    build:
+      context: .
+      dockerfile: NEON-CYBER-GRID/Dockerfile
+    container_name: ai-portfolio-neon
+    ports:
+      - "3002:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_NAME: Neon Cyber Grid
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)}))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - portfolio-network
+    volumes:
+      - ./logs:/app/logs
+
+  terminal:
+    build:
+      context: .
+      dockerfile: TERMINAL-CLI/Dockerfile
+    container_name: ai-portfolio-terminal
+    ports:
+      - "3003:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_NAME: Terminal CLI
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)}))"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - portfolio-network
+    volumes:
+      - ./logs:/app/logs
+
+networks:
+  portfolio-network:
+    driver: bridge
