@@ -1,23 +1,37 @@
 {
   "name": "ai-tech-themed-portfolios",
-  "version": "1.0.0",
-  "description": "AI/Tech themed portfolio websites with 3 unique designs",
+  "version": "2.0.0",
+  "description": "Production-ready AI/Tech themed portfolio websites",
   "main": "server.js",
+  "type": "commonjs",
+  "private": true,
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "install:all": "npm install && cd GLASSMORPHISM-NEURAL-NETWORKS && npm install && cd ../NEON-CYBER-GRID && npm install && cd ../TERMINAL-CLI && npm install && cd ..",
+    "dev:all": "npm run dev:glass & npm run dev:neon & npm run dev:terminal",
+    "dev:glass": "cd GLASSMORPHISM-NEURAL-NETWORKS && npm run dev",
+    "dev:neon": "cd NEON-CYBER-GRID && npm run dev",
+    "dev:terminal": "cd TERMINAL-CLI && npm run dev",
+    "start:all": "npm run start:glass & npm run start:neon & npm run start:terminal",
+    "start:glass": "cd GLASSMORPHISM-NEURAL-NETWORKS && npm start",
+    "start:neon": "cd NEON-CYBER-GRID && npm start",
+    "start:terminal": "cd TERMINAL-CLI && npm start",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --ignore-pattern node_modules",
+    "lint:fix": "eslint . --fix --ignore-pattern node_modules",
+    "format": "prettier --write .",
     "security": "snyk test",
-    "build": "echo 'Build complete'",
-    "deploy:github": "gh-pages -d public",
-    "deploy:vercel": "vercel",
-    "deploy:netlify": "netlify deploy",
-    "docker:build": "docker build -t jonathan-portfolio:latest .",
-    "docker:run": "docker run -p 3000:3000 jonathan-portfolio:latest",
-    "docker:compose": "docker-compose up -d"
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop all",
+    "pm2:restart": "pm2 restart all",
+    "pm2:logs": "pm2 logs",
+    "pm2:delete": "pm2 delete all",
+    "backup": "bash scripts/backup.sh",
+    "deploy": "bash scripts/deploy.sh"
   },
   "keywords": [
     "portfolio",
@@ -25,31 +39,20 @@
     "tech",
     "glassmorphism",
     "neon",
-    "terminal"
+    "terminal",
+    "production"
   ],
-  "author": "Jonathan Peters",
+  "author": "QMS85",
   "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2",
-    "helmet": "^7.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "mongoose": "^7.0.0",
-    "bcrypt": "^5.1.0",
-    "jsonwebtoken": "^9.0.0",
-    "validator": "^13.9.0",
-    "express-rate-limit": "^6.7.0",
-    "mongo-sanitize": "^2.2.0"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QMS85/My-AI-Tech-Themed-Portfolios.git"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20",
-    "jest": "^29.5.0",
-    "eslint": "^8.40.0",
-    "snyk": "^1.1200.0",
-    "@types/node": "^20.0.0"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "jest": "^29.7.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
+    "@types/node": "^20.9.0",
+    "snyk": "^1.1257.0"
   }
 }
